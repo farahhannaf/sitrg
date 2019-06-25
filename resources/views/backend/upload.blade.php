@@ -1,7 +1,7 @@
 <!-- Dashboard -->
 @extends('layouts.backend.main')
 
-@section('title', 'Laravel 5 Blog | Dashboard')
+@section('title', 'SITRG')
 
 @section('content')
 <!-- Content Wrapper. Contains page content -->
@@ -10,6 +10,11 @@
   <!-- Content Header (Page header) -->
   <div class="content-header">
     <div class="container-fluid">
+      @if(session('sukses'))
+        <div class="alert alert-success" role="alert" >
+          {{session('sukses')}}
+        </div>
+      @endif
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0 text-dark">Upload File ZIP</h1>

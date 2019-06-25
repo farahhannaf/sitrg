@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Backend;
+use App\Models\PdfModel;
 
 use Illuminate\Http\Request;
 
@@ -11,8 +12,13 @@ class HomeController extends BackendController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('Backend.home');
+ 	    $pdf=PdfModel::all();
+        $kode_wil = $request->session()->get('activeUser')['kode_wil'];
+        $pdf_sum = $pdf->where('kode_wil',$kode_wil)->count();
+
+    	$count = 20;
+        return view('Backend.home', compact('pdf_sum'));
     }
 }

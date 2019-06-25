@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Models\UserModel;
+use File;
 
 class UserController extends Controller
 {
@@ -14,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        $data=User::all();
+        return view('backend.users.index',compact('data'));
     }
 
     /**
@@ -22,9 +25,25 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    
+    public function back(){
+        return redirect ('/');
+    }
+
+    public function create(Request $request)
+    {   
+        if(UserModel::create($request->all())){       
+            $kode_wil = User::get()->pluck('kode_wil');
+            foreach ($kode_wil as $key => $value) {
+                $path = public_path('/uploaded File/'.$value);
+                if(!File::isDirectory($path)){
+                    File::makeDirectory($path, 0777, true, true);
+                }
+            }
+
+            return redirect('/user')->with('sukses','Data berhasil diinput');
+        }
+        return back();
     }
 
     /**
@@ -36,6 +55,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function insert(Request $request){
+     return redirect ('/');
     }
 
     /**
@@ -55,9 +78,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($user_id)
     {
-        //
+        $data = UserModel::find($user_id);
+        return view('backend.users.edit',compact('data'));
     }
 
     /**
@@ -67,9 +91,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $user_id)
     {
-        //
+        $data=UserModel::find($user_id);
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->password = $request->password;
+        $data->save();
+
+        return redirect ('/user')->with('alert-success','Data berhasil Diubah.');
     }
 
     /**
@@ -78,6 +108,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function delete($user_id){
+     $data=UserModel::find($user_id);
+        $data->delete();
+        return back();
+    }
+
+    public function read($user_id){
+     $data=User::find($user_id);
+     return view('backend.users.read',compact('data'));
+    }
+
     public function destroy($id)
     {
         //

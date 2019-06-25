@@ -1,5 +1,6 @@
 <!-- Dashboard -->
   <!-- Navbar -->
+
   <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -13,8 +14,9 @@
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
       
-      
+      <p>HAI </p>
       <li class="nav-item">
+        
         <a title="logout" class="nav-link" href="{{ route('logout') }}"
            onclick="event.preventDefault();
                          document.getElementById('logout-form').submit();">

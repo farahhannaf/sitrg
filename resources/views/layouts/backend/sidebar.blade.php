@@ -19,22 +19,41 @@
                with font-awesome or any other icon font library -->
          
           <li class="nav-item has-treeview">
+            <a href="{{route('pageupload')}}" class="nav-link">
+              <i class="nav-icon fa fa-plus-square-o"></i>
+              <p>
+                Upload ZIP dan PDF
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-map-marker"></i>
+              <p>
+                Hasil Upload ZIP
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="{{url('/pdf')}}" class="nav-link">
               <i class="nav-icon fa fa-table"></i>
               <p>
-                Hasil Upload
+                Hasil Upload PDF
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="{{url('/user')}}" class="nav-link">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                User
               </p>
             </a>
           </li>
         
-          <li class="nav-item has-treeview">
-            <a href="{{route('pageupload')}}" class="nav-link">
-              <i class="nav-icon fa fa-plus-square-o"></i>
-              <p>
-                Upload zip
-              </p>
-            </a>
-          </li>
          
         </ul>
       </nav>
