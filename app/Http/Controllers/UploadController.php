@@ -5,11 +5,18 @@ use Illuminate\Http\Request;
 use App\Models\PdfModel;
 use Illuminate\Filesystem\Filesystem;
 // use Validator;
+use DB;
+use Pacuna\Schemas\Facades\PGSchema;
+use GuzzleHttp\Client;
+use GuzzleHttp\Middleware;
+
 
 class UploadController extends Controller
 {
 	public function upload(){		
-		return view('upload');
+		$schemas = DB::select("SELECT schema_name FROM information_schema.schemata where schema_name not like 'information_schema' and schema_name not like 'pg_%' and schema_name not like 'public'");
+
+		return view('upload',['schemas' => $schemas]);
 	}
 
 	public function proses_upload(Request $request){
@@ -23,7 +30,7 @@ class UploadController extends Controller
 		// return $pdf;
 		if($pdf != null){
 			$userId = $request->session()->get('activeUser')->kode_wil;
-	        $path = $pdf->move('uploaded File/'.$userId.'/'.'Pdf/',$pdf->getClientOriginalName());
+	        $path = $pdf->move('uploaded-File/'.$userId.'/'.'Pdf/',$pdf->getClientOriginalName());
 	        $datapdf = new PdfModel();
 	        $datapdf->file_pdf=$path;
 	        $datapdf->kode_wil=$userId;
@@ -40,10 +47,10 @@ class UploadController extends Controller
 	        // $fileType = $file->getMimeType();
 	    	
 	        $userId = $request->session()->get('activeUser')->kode_wil;
-	        $uploadFolder = 'uploaded File';
+	        $uploadFolder = 'uploaded-File';
 
 	        // code buat rename file double
-	        $zipFolder = 'uploaded File/'.$userId.'/'.'Zip/';
+	        $zipFolder = 'uploaded-File/'.$userId.'/'.'Zip/';
 	        $i = 1;
 	        while (file_exists($zipFolder.$fileNameWithExtension)) {
 	            $new_fname = $filename.'-'.$i;
@@ -56,15 +63,15 @@ class UploadController extends Controller
 
 	        // Hapus directory temp dulu sbl ekstrak
 	        $deleteDir = new Filesystem;
-	        $deleteDir->cleanDirectory('uploaded File/'.$userId.'/'.'Temp/');
+	        $deleteDir->cleanDirectory('uploaded-File/'.$userId.'/'.'Temp/');
 
 	        // Ekstraksi file
-	        $Path = public_path('uploaded File/'.$userId.'/'.'Zip/'.$fileNameWithExtension);
-	        \Zipper::make($Path)->extractTo('uploaded File/'.$userId.'/'.'Temp/');
+	        $Path = public_path('uploaded-File/'.$userId.'/'.'Zip/'.$fileNameWithExtension);
+	        \Zipper::make($Path)->extractTo('uploaded-File/'.$userId.'/'.'Temp/');
  
 	        // Renaming File
 	        $length = strlen($filename);
-	        $renamePath = 'uploaded File/'.$userId.'/'.'Temp/';
+	        $renamePath = 'uploaded-File/'.$userId.'/'.'Temp/';
 	        $filesInFolder = \File::files($renamePath);
 	        foreach($filesInFolder as $path) { 
 	              $file = pathinfo($path);
@@ -73,56 +80,116 @@ class UploadController extends Controller
 	              rename($renamePath.$name,$renamePath.$newName.$fullExtension);
 	        }
 
-	        $userId = $request->session()->get('activeUser')->kode_wil;
-	        $pathTemp = public_path('uploaded File/'.$userId.'/'.'Temp/'.$newName.);
-
-	        //upload ke postgre
+	          $pathTemp = public_path('uploaded-File/'.$userId.'/'.'Temp');
 	        //dd(glob($filenameZip . "/*.prj"));
+	        // return glob($pathTemp . "/*.prj");
 	        foreach (glob($pathTemp . "/*.prj") as $filename) {
 	            $file_prj = str_replace("/", "\\", $filename);
 	        }
+	        // return $file_prj;
+	        $epsg = (int) shell_exec("python C:\Users\ASUS\Documents\Python\getEPSG.py ".$file_prj);
 
-	        $epsg = (int) shell_exec("python C:\Users\ASUS\Documents\Python Scripts\getEPSG.py ".$file_prj);
 	        // globe-> mengambil isi dari folder yang dipilih
-	        foreach (glob($renamePath . "/*.shp") as $filename) {
+	        foreach (glob($pathTemp . "/*.shp") as $filename) {
 	            $filename_new = str_replace("/", "\\", $filename);
 	            $table_name = basename($filename_new, ".shp");
 	            $table_name_new = str_replace(" ", "_", $table_name);
 	        }
-			// here 4326 is spatial reference system or coordinate system of the shape file.
-	        shell_exec('"C:\Program Files\PostgreSQL\11\bin\shp2pgsql" -I -s '. $epsg .' '. $filename_new . ' ' . $userId . '.' . $table_name_new . ' | "C:\Program Files\PostgreSQL\11\bin\psql" -U postgres -d sitrg');
 
+
+	        //return ('"C:\Program Files\PostgreSQL\11\bin\shp2pgsql" -I -s '. $epsg .' '. $filename_new . ' ' . $userId . '.' . $table_name_new . ' | "C:\Program Files\PostgreSQL\11\bin\psql" -U postgres -P farah -d sitrg');
 	        
+			// // here 4326 is spatial reference system or coordinate system of the shape file.
+
+			// $command = escapeshellcmd('"C:\Program Files\PostgreSQL\11\bin\shp2pgsql" -I -s '. $epsg .' '. $filename_new . ' ' . $userId . '.' . $table_name_new . ' | "C:\Program Files\PostgreSQL\11\bin\psql" -U postgres -d sitrg');
+			// $output = shell_exec($command);
+			// echo $output;
+
+	         $test = shell_exec('"C:\Program Files\PostgreSQL\11\bin\shp2pgsql" -I -s '. $epsg .' '. $filename_new . ' ' . $userId . '.' . $table_name_new . ' | "C:\Program Files\PostgreSQL\11\bin\psql" -U postgres -d sitrg');
+	         
+	         $this->request_workspace($userId);
+        	 $this->post_store($userId);
+
+        	 shell_exec("python C:\Users\ASUS\Documents\Python\publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
+
 		}
 
 		return redirect('/upload')->with('sukses','Data berhasil diinput');
 		echo "success";
-
-
-
-  //     	        // nama file
-		// echo 'File Name: '.$file->getClientOriginalName();
-		// echo '<br>';
-
-  //     	        // ekstensi file
-		// echo 'File Extension: '.$file->getClientOriginalExtension();
-		// echo '<br>';
-
-  //     	        // real path
-		// echo 'File Real Path: '.$file->getRealPath();
-		// echo '<br>';
-
-  //     	        // ukuran file
-		// echo 'File Size: '.$file->getSize();
-		// echo '<br>';
-
-  //     	        // tipe mime
-		// echo 'File Mime Type: '.$file->getMimeType();
-
-  //     	        // isi dengan nama folder tempat kemana file diupload
-		// $tujuan_upload = public_path('3578');
-
-  //               // upload file
-		// $file->move($tujuan_upload,$file->getClientOriginalName());
 	}
+	 public function post_workspace(String $name)
+    {
+        $client = new Client();
+        $res = $client->request('POST', 'http://localhost:2012/geoserver/rest/workspaces', [
+            'auth' => ['admin', 'geoserver'],
+            'json' => [
+                'workspace' => [
+                    'name' => $name
+                ]
+            ]
+        ]);
+    }
+
+    public function request_workspace(String $name)
+    {
+        $client = new Client();
+        $res = $client->request('GET', 'http://localhost:2012/geoserver/rest/workspaces/', [
+            'auth' => ['admin', 'geoserver']
+        ]);
+//      menampilkan json
+//      dd((string) $res->getBody());
+        $responsArray = json_decode($res->getBody());
+        foreach ($responsArray->workspaces as $num => $item) {
+            foreach ($item as $no => $piece) {
+                echo "workspace:";
+                 $resultname = $piece->name;
+                echo $resultname."<br>";
+                echo "input:". $name."<br>";
+                if ($name == $resultname){
+                    $result=1;
+                    break;
+                    }
+                else{
+                    $result=0;
+                }
+            }
+            if ($result==0) {
+                $this->post_workspace($name);
+            }
+//            else
+//                $this->put_workspace($name);
+            $workspacename=$name;
+        }
+    }
+
+    public function post_store(String $name)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://localhost:2012/geoserver/rest/workspaces/". $name ."/datastores");
+        curl_setopt($ch, CURLOPT_HTTPHEADER,  array("Content-type: application/xml", 'Authorization: Basic YWRtaW46Z2Vvc2VydmVy'));
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "<dataStore>
+                                                            <name>".$name."</name>
+                                                            <connectionParameters>
+                                                            <SPI>org.geotools.data.postgis.PostgisNGDataStoreFactory</SPI>
+                                                            <host>localhost</host>
+                                                            <port>5432</port>
+                                                            <database>sitrg</database>
+                                                            <schema>".$name."</schema>
+                                                            <user>postgres</user>
+                                                            <passwd></passwd>
+                                                            <bbox>true</bbox>
+                                                            <extends>false</extends>
+                                                            <connections>true</connections>
+                                                            <timeout>300</timeout>
+                                                            <preparedStatements>true</preparedStatements>
+                                                            <dbtype>postgis</dbtype>
+                                                            </connectionParameters></dataStore>");
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        $str = curl_exec($ch);
+        curl_close($ch);
+    }
+
+
+
 }

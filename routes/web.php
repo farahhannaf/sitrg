@@ -32,6 +32,8 @@ Route::group(['middleware' => ['login-verification']], function () {
     Route::get('/upload', function () {
    	 return view('backend.upload');
 	})->name('pageupload');
+    // Route::get('/upload', 'UploadController@upload')->name('uploadfile');
+
 	Route::get('/user','UserController@index');
 	Route::post('/user/create','UserController@create');
 	Route::get('/user/edit/{user_id}','UserController@edit');

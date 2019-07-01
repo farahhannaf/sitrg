@@ -41,6 +41,11 @@
           </div>
           @endif
 
+          <?php
+          $name = session()->get('activeUser')->name;
+          $schema = str_replace(" ", "_", $name);
+          ?>
+
           <form action="{{route('uploadfile')}}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
 
@@ -48,6 +53,9 @@
               <b>File ZIP</b><br/>
               <input type="file" name="zip">
             </div>
+
+            
+            
             <div class="form-group">
               <b>File pdf</b><br/>
               <input type="file" name="pdf">
