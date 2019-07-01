@@ -120,7 +120,7 @@ class UploadController extends Controller
 	 public function post_workspace(String $name)
     {
         $client = new Client();
-        $res = $client->request('POST', 'http://localhost:2012/geoserver/rest/workspaces', [
+        $res = $client->request('POST', 'http://localhost:8080/geoserver/rest/workspaces', [
             'auth' => ['admin', 'geoserver'],
             'json' => [
                 'workspace' => [
@@ -133,7 +133,7 @@ class UploadController extends Controller
     public function request_workspace(String $name)
     {
         $client = new Client();
-        $res = $client->request('GET', 'http://localhost:2012/geoserver/rest/workspaces/', [
+        $res = $client->request('GET', 'http://localhost:8080/geoserver/rest/workspaces/', [
             'auth' => ['admin', 'geoserver']
         ]);
 //      menampilkan json
@@ -165,7 +165,7 @@ class UploadController extends Controller
     public function post_store(String $name)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://localhost:2012/geoserver/rest/workspaces/". $name ."/datastores");
+        curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/geoserver/rest/workspaces/". $name ."/datastores");
         curl_setopt($ch, CURLOPT_HTTPHEADER,  array("Content-type: application/xml", 'Authorization: Basic YWRtaW46Z2Vvc2VydmVy'));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, "<dataStore>
@@ -176,7 +176,7 @@ class UploadController extends Controller
                                                             <port>5432</port>
                                                             <database>sitrg</database>
                                                             <schema>".$name."</schema>
-                                                            <user>postgres</user>
+                                                            <user>farah</user>
                                                             <passwd></passwd>
                                                             <bbox>true</bbox>
                                                             <extends>false</extends>
