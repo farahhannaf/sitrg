@@ -87,7 +87,7 @@ class UploadController extends Controller
 	            $file_prj = str_replace("/", "\\", $filename);
 	        }
 	        // return $file_prj;
-	        $epsg = (int) shell_exec("python C:\Users\ASUS\Documents\Python\getEPSG.py ".$file_prj);
+	        $epsg = (int) shell_exec("python D:\xampp\htdocs\sitrg\getEPSG.py ".$file_prj);
 
 	        // globe-> mengambil isi dari folder yang dipilih
 	        foreach (glob($pathTemp . "/*.shp") as $filename) {
@@ -110,7 +110,7 @@ class UploadController extends Controller
 	         $this->request_workspace($userId);
         	 $this->post_store($userId);
 
-        	 shell_exec("python C:\Users\ASUS\Documents\Python\publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
+        	 shell_exec("python D:\xampp\htdocs\sitrg\publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
 
 		}
 
