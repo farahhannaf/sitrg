@@ -23,65 +23,22 @@
     <div class="container-fluid">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-12 col-12">
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>{{$pdf_sum}}</h3>
+              <center><h3>{{$pdf_sum}}</h3></center>
 
-              <p>Jumlah PDF</p>
+              <center><p>Jumlah PDF</p></center>
             </div>
-            <div class="icon">
+            <!-- <div class="icon">
               <i class="ion ion-document-text"></i>
-            </div>
-            <a href="/pdf" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div> -->
+            <center><a href="/pdf" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a></center>
           </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-success">
-            <div class="inner">
-              <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-              <p>Jumlah ZIP</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-stats-bars"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-warning">
-            <div class="inner">
-              <h3>44</h3>
-
-              <p>User Registrations</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-person-add"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-danger">
-            <div class="inner">
-              <h3>65</h3>
-
-              <p>Unique Visitors</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
+       
         <!-- ./col -->
       </div>
    

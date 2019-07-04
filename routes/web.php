@@ -34,6 +34,8 @@ Route::group(['middleware' => ['login-verification']], function () {
 	})->name('pageupload');
     // Route::get('/upload', 'UploadController@upload')->name('uploadfile');
 
+    Route::get('/schema','UploadController@schem');
+
 	Route::get('/user','UserController@index');
 	Route::post('/user/create','UserController@create');
 	Route::get('/user/edit/{user_id}','UserController@edit');
@@ -44,6 +46,8 @@ Route::group(['middleware' => ['login-verification']], function () {
 	Route::get('/pdf/edit/{id_pdf}','PdfController@edit');
 	Route::post('/pdf/update/{id_pdf}','PdfController@update');
 	Route::get('/pdf/delete/{id_pdf}','PdfController@delete');
+
+	Route::get('/map','MapController@index');
 });
 
 

@@ -14,10 +14,16 @@ use GuzzleHttp\Middleware;
 class UploadController extends Controller
 {
 	public function upload(){		
-		$schemas = DB::select("SELECT schema_name FROM information_schema.schemata where schema_name not like 'information_schema' and schema_name not like 'pg_%' and schema_name not like 'public'");
+		 $schemas = DB::select("SELECT schema_name FROM information_schema.schemata where schema_name not like 'information_schema' and schema_name not like 'pg_%' and schema_name not like 'public'");
 
-		return view('upload',['schemas' => $schemas]);
+		return view('upload', ['schemas' => $schemas]);
 	}
+
+	 // public function schem()
+  //   {
+  //   	$selectSchem = DB::table('ni_Tahun_2011')->select('*')->get();
+  //   	return $selectSchem;
+  //   }
 
 	public function proses_upload(Request $request){
 		// menyimpan data file yang diupload ke variabel $file
@@ -87,7 +93,7 @@ class UploadController extends Controller
 	            $file_prj = str_replace("/", "\\", $filename);
 	        }
 	        // return $file_prj;
-	        $epsg = (int) shell_exec("python D:\xampp\htdocs\sitrg\getEPSG.py ".$file_prj);
+	        $epsg = (int) shell_exec("python C:\Users\ASUS\Documents\Python\getEPSG.py ".$file_prj);
 
 	        // globe-> mengambil isi dari folder yang dipilih
 	        foreach (glob($pathTemp . "/*.shp") as $filename) {
@@ -110,7 +116,9 @@ class UploadController extends Controller
 	         $this->request_workspace($userId);
         	 $this->post_store($userId);
 
-        	 shell_exec("python D:\xampp\htdocs\sitrg\publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
+        	 // $public = "public";
+        	 
+        	 shell_exec("python C:\Users\ASUS\Documents\Python\publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
 
 		}
 

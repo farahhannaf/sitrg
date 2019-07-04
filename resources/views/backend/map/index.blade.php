@@ -9,57 +9,42 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
-    <div class="container-fluid">
-      @if(session('sukses'))
-        <div class="alert alert-success" role="alert" >
-          {{session('sukses')}}
-        </div>
-      @endif
-      <div class="row mb-2">
+    
         <div class="col-sm-6">
-          <h1 class="m-0 text-dark">List PDF</h1>
+          <h1 class="m-0 text-dark">Peta</h1>
         </div><!-- /.col -->
-        
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+      
   </div>
   <!-- /.content-header -->
 
     <!-- Main content -->
     <section class="content">
       <div class="container">
-        <!-- Small boxes (Stat box) -->
+        <div class="jumbotron">
+          <div class="row">
+            <iframe src="http://localhost/mapbender/application/sitrg" style="height:500px;width:100%;"></iframe>
+          </div>          
+        </div>
+        <h3>List data peta</h3>
         <div class="row">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Path File</th>
-                                <th>Tanggal</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nama data</th>
+                <th>Tanggal</th>
+                <th>Action</th>
+              </tr>
+            </thead>
 
-                        <tbody>
-                            @foreach($pdf as $key => $d)
-                            <tr>
-                                <td>{{ $d->id_pdf}}</td>
-                                <td>{{ $d->file_pdf}}</td>
-                                <td>{{ $d->created_at }}</td>
-                                <td>
-                                    <!-- <a href="/pdf/edit/{{$d->id_pdf}}" class="btn btn-warning btn-sm">Edit</a> -->
-                                    <a href="/pdf/delete/{{$d->id_pdf}}" class="btn btn-danger btn-sm">Delete</a>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+          </table>
         </div>
       </div>
-  </section>
+    </section>
   <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
+
+  <!-- /.content-wrapper -->
 @endsection
 
 

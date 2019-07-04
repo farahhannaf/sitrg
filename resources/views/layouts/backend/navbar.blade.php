@@ -14,7 +14,7 @@
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
       
-      <h4>Hai, {{ Session::get('activeUser')->kode_wil }} </h4>
+      <h5>{{ Session::get('activeUser')->name }} </h5>
       <li class="nav-item">
         
         <a title="logout" class="nav-link" href="{{ route('logout') }}"
