@@ -11,7 +11,7 @@ class LoginController extends Controller
         // Session::flush();
         // return redirect('login');
         if($request->session()->exists('activeUser')){
-            return "WES LOGIN";
+                return redirect('/home');
         }
         return view('login/index');
     }
@@ -33,8 +33,11 @@ class LoginController extends Controller
             if($activeUser->password == sha1($password)){
                 $request->session()->put('activeUser',$activeUser); // activeuser diambil session ke home.
                // dd($activeUser);
+
                 $activeUser->remember_token=sha1($activeUser->user_id.date('YmdHis'));
                 $activeUser->save();
+
+                Session::put('activeUser', $activeUser);
                 return redirect('/home');
             }
             $params = [

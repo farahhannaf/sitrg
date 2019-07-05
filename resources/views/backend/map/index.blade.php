@@ -30,12 +30,23 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Nama data</th>
+                <th>Kode Wilayah</th>
+                <th>Nama Data</th>
                 <th>Tanggal</th>
-                <th>Action</th>
               </tr>
             </thead>
+            <tbody>
+              @foreach($result as $r)
+              <tr>
+                <td>{{ $r->kode_wil}}</td>
+                <td>{{ $r->nama}}</td>
+                <td>{{ $r->tanggal }}</td>
+                <!-- <td>
+                <a href="/map/delete/" class="btn btn-danger btn-sm">Delete</a>
+                </td> -->
+              </tr>
+              @endforeach
+            </tbody>
 
           </table>
         </div>
