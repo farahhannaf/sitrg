@@ -93,7 +93,7 @@ class UploadController extends Controller
 	            $file_prj = str_replace("/", "\\", $filename);
 	        }
 	        // return $file_prj;
-	        $epsg = (int) shell_exec("python /home/farah/getEPSG.py ".$file_prj);
+	        $epsg = (int) shell_exec("/usr/bin/python /home/farah/getEPSG.py ".$file_prj);
 
 	        // globe-> mengambil isi dari folder yang dipilih
 	        foreach (glob($pathTemp . "/*.shp") as $filename) {
@@ -117,7 +117,9 @@ class UploadController extends Controller
         	 $this->post_store($userId);
 
         	 // $public = "public";
-        	 shell_exec("python /home/farah/publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
+        	 return("/usr/bin/python /home/farah/publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
+
+        	 // shell_exec("/usr/bin/python /home/farah/publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
 
 		}
 
