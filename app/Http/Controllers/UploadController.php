@@ -93,7 +93,7 @@ class UploadController extends Controller
 	            $file_prj = str_replace("/", "\\", $filename);
 	        }
 	        // return $file_prj;
-	        $epsg = (int) shell_exec("python C:\Users\ASUS\Documents\Python\getEPSG.py ".$file_prj);
+	        $epsg = (int) shell_exec("python /home/farah/getEPSG.py ".$file_prj);
 
 	        // globe-> mengambil isi dari folder yang dipilih
 	        foreach (glob($pathTemp . "/*.shp") as $filename) {
@@ -111,14 +111,14 @@ class UploadController extends Controller
 			// $output = shell_exec($command);
 			// echo $output;
 
-	         $test = shell_exec('"C:\Program Files\PostgreSQL\11\bin\shp2pgsql" -I -s '. $epsg .' '. $filename_new . ' ' . $userId . '.' . $table_name_new . ' | "C:\Program Files\PostgreSQL\11\bin\psql" -U postgres -d sitrg');
+	         $test = shell_exec('"/usr/bin/shp2pgsql" -I -s '. $epsg .' '. $filename_new . ' ' . $userId . '.' . $table_name_new . ' | "/usr/bin/psql" -U postgres -d sitrg');
 	         
 	         $this->request_workspace($userId);
         	 $this->post_store($userId);
 
         	 // $public = "public";
         	 
-        	 shell_exec("python C:\Users\ASUS\Documents\Python\publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
+        	 shell_exec("python /home/farah/publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
 
 		}
 
@@ -128,7 +128,7 @@ class UploadController extends Controller
 	 public function post_workspace(String $name)
     {
         $client = new Client();
-        $res = $client->request('POST', 'http://localhost:2012/geoserver/rest/workspaces', [
+        $res = $client->request('POST', 'http://128.199.203.59:8080/geoserver/rest/workspaces', [
             'auth' => ['admin', 'geoserver'],
             'json' => [
                 'workspace' => [
@@ -141,7 +141,7 @@ class UploadController extends Controller
     public function request_workspace(String $name)
     {
         $client = new Client();
-        $res = $client->request('GET', 'http://localhost:2012/geoserver/rest/workspaces/', [
+        $res = $client->request('GET', 'http://128.199.203.59:8080/geoserver/rest/workspaces/', [
             'auth' => ['admin', 'geoserver']
         ]);
 //      menampilkan json
@@ -173,7 +173,7 @@ class UploadController extends Controller
     public function post_store(String $name)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://localhost:2012/geoserver/rest/workspaces/". $name ."/datastores");
+        curl_setopt($ch, CURLOPT_URL, "http://128.199.203.59:8080/geoserver/rest/workspaces/". $name ."/datastores");
         curl_setopt($ch, CURLOPT_HTTPHEADER,  array("Content-type: application/xml", 'Authorization: Basic YWRtaW46Z2Vvc2VydmVy'));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, "<dataStore>
