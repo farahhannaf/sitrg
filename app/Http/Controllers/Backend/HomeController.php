@@ -19,6 +19,6 @@ class HomeController extends BackendController
         $pdf_sum = $pdf->where('kode_wil',$kode_wil)->count();
 
     	$count = 20;
-        return view('Backend.home', compact('pdf_sum'));
+        return view('backend.home', compact('pdf_sum'));
     }
 }
