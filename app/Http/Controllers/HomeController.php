@@ -23,8 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $count = "20"; //misal
-        return $count;
-        return view("backend.home",compact('count'));
+        return view('home');
     }
 }
