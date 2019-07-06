@@ -22,7 +22,7 @@
       <div class="container">
         <div class="jumbotron">
           <div class="row">
-            <iframe src="http://localhost/mapbender/application/sitrg" style="height:500px;width:100%;"></iframe>
+            <iframe src="http://128.199.203.59/mapbender/application/sitrg" style="height:500px;width:100%;"></iframe>
           </div>          
         </div>
         <h3>List data peta</h3>

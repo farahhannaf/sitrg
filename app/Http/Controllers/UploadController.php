@@ -25,7 +25,7 @@ class UploadController extends Controller
   //   	return $selectSchem;
   //   }
 
-	public function proses_upload(Request $request){
+	public function <proses_upload></proses_upload>(Request $request){
 		// menyimpan data file yang diupload ke variabel $file
 		// $this->validate($request, [
 		//    'file' => 'required',
@@ -117,7 +117,6 @@ class UploadController extends Controller
         	 $this->post_store($userId);
 
         	 // $public = "public";
-        	 
         	 shell_exec("python /home/farah/publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
 
 		}
