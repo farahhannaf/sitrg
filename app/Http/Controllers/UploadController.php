@@ -117,7 +117,7 @@ class UploadController extends Controller
         	 $this->post_store($userId);
 
         	 // $public = "public";
-        	 
+        	 // return ("python C:\Users\ASUS\Documents\Python\publishLayer.py ". $userId .' '. $table_name .' '. $epsg);
         	 shell_exec("python C:\Users\ASUS\Documents\Python\publishLayer.py ". $userId .' '. $table_name .' '. $epsg); 
 
 		}
