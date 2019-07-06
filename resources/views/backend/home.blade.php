@@ -34,7 +34,7 @@
             <!-- <div class="icon">
               <i class="ion ion-document-text"></i>
             </div> -->
-            <center><a href="/pdf" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a></center>
+            <center><a href="{{ url('pdf') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a></center>
           </div>
         </div>
         <!-- ./col -->

@@ -56,8 +56,8 @@
                                 <td>{{ $d->password }}</td>
                                 <td>{{ $d->kode_wil }}</td>
                                 <td>
-                                    <a href="/user/edit/{{$d->user_id}}" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="/user/delete/{{$d->user_id}}" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="{{ url('/user/edit') }}/{{$d->user_id}}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{{ url('/user/delete') }}/{{$d->user_id}}" class="btn btn-danger btn-sm">Delete</a>
                                 </td>
                             </tr>
                             @endforeach
