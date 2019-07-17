@@ -100,6 +100,7 @@
           <div class="form-group">
             <label for="kode_wil">kode wilayah</label>
             <input type="number" class="form-control" name="kode_wil" id="kode_wil" placeholder="kode_wil" required>
+            <input type="hidden" class="form-control" name="role_id" id="role_id" placeholder="kode_wil" value="2">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -43,7 +43,7 @@ class LoginController extends Controller
             $params = [
                 'message' => 'Login Gagal, Password tidak sesuai'
             ];
-            return 'pass sala';
+            return 'error';
             $this->loginMenu();
         }
         return view('login.index', $params);

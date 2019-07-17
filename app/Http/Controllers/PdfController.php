@@ -7,6 +7,8 @@ use App\User;
 use App\Models\PdfModel;
 use App\Models\UserModel;
 use File;
+use PDF;
+use Session;
 
 class PdfController extends Controller
 {
@@ -17,10 +19,14 @@ class PdfController extends Controller
      */
     public function index(Request $request)
     {
-
-        $pdf=PdfModel::all();
-        $kode_wil = $request->session()->get('activeUser')['kode_wil'];
-        $pdf = $pdf->where('kode_wil',$kode_wil);
+        $role = Session::get('activeUser')->role_id;
+        if($role == 1){
+            $pdf=PdfModel::all();
+        }else{
+            $pdf=PdfModel::all();
+            $kode_wil = $request->session()->get('activeUser')['kode_wil'];
+            $pdf = $pdf->where('kode_wil',$kode_wil);
+        }
         return view('backend.pdf.index',compact('pdf'));
     }
 
@@ -30,6 +36,15 @@ class PdfController extends Controller
      * @return \Illuminate\Http\Response
      */
     
+    // public function pdfStream(Request $request){
+    //    $pdf=PdfModel::all();
+    //   $kode_wil = $request->session()->get('activeUser')['kode_wil'];
+    //   $pdf = $pdf->where('kode_wil',$kode_wil);
+    //   $user = PdfModel::find($user->id_pdf);
+    //   $data["info"] = $user;
+    //   $pdf = PDF::loadView('file_pdf', $data);
+    //   return $pdf->stream('file_pdf');
+    // }
     public function back(){
         return redirect ('/');
     }
@@ -40,73 +55,20 @@ class PdfController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+
+    public function show($id_pdf){
+        $path=PdfModel::find($id_pdf)->first();
+        $path=$path->file_pdf;
+        $path = str_replace("\\", "/", $path);
+        return view ('backend.pdf.open',compact('path'));
     }
 
-    public function insert(Request $request){
-     return redirect ('/');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id_pdf)
-    {
-        $pdf = PdfModel::find($id_pdf);
-        return view('backend.pdf.edit',compact('pdf'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id_pdf)
-    {
-        $pdf=PdfModel::find($id_pdf);
-        $pdf->file_pdf = $request->file_pdf;
-        $pdf->save();
-
-        return redirect ('/pdf')->with('alert-success','Data berhasil Diubah.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function delete($id_pdf){
      $pdf=PdfModel::find($id_pdf);
         $pdf->delete();
         return back();
     }
 
-    public function read($user_id){
-     $data=User::find($user_id);
-     return view('backend.users.read',compact('data'));
-    }
 
-    public function destroy($id)
-    {
-        //
-    }
 }

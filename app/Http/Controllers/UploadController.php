@@ -37,6 +37,7 @@ class UploadController extends Controller
 		if($pdf != null){
 			$userId = $request->session()->get('activeUser')->kode_wil;
 	        $path = $pdf->move('uploaded-File/'.$userId.'/'.'Pdf/',$pdf->getClientOriginalName());
+	        
 	        $datapdf = new PdfModel();
 	        $datapdf->file_pdf=$path;
 	        $datapdf->kode_wil=$userId;

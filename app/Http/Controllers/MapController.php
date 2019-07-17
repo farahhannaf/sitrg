@@ -18,31 +18,38 @@ class MapController extends Controller
      */
     public function index()
     {   
-    	$result = $this->listMaps();
+    	$result = $this->getMapByUser(Session::get('activeUser')->role_id);
         return view('backend.map.index', compact('result'));
     }
 
-    public function listMaps(){
-        $kode_wil = Session::get('activeUser')->kode_wil;
-	    $zipPath = public_path('uploaded-File/'.$kode_wil.'/Zip/');
+    public function getMapByUser($role){
+        if($role == 1){
+            $user = UserModel::all();
+        }else{
+            $user = UserModel::where('user_id', Session::get('activeUser')->user_id)->get();
+        }
 
-	    $dataMaps = [];
-	    foreach (glob($zipPath . "*.zip") as $filename) {
-            $temp = str_replace("/", "\\", $filename);
-            $temp = explode("\\", $temp);
-            $temp= str_replace(".zip", "", end($temp));
+        $dataMaps = [];
+        foreach ($user as $usr) {
+            $zipPath = public_path('uploaded-File/'.$usr['kode_wil'].'/Zip/');
 
-            $dataMaps[] = explode("_", $temp);
+            foreach (glob($zipPath . "*.zip") as $filename) {
+                $temp = str_replace("/", "\\", $filename);
+                $temp = explode("\\", $temp);
+                $temp= str_replace(".zip", "", end($temp));
+
+                $dataMaps[] = explode("_", $temp);
+            }
         }
 
         $result = [];
         foreach ($dataMaps as $d) {
-        	$data = new \StdClass();
-        	$data->tanggal = $d[0];
-        	$data->kode_wil = $d[1];
-        	$data->nama = implode(" ", array_slice($d, 2));
-        	$result[] = $data;
+            $data = new \StdClass();
+            $data->tanggal = $d[0];
+            $data->kode_wil = $d[1];
+            $data->nama = implode(" ", array_slice($d, 2));
+            $result[] = $data;
         }
-    	return $result;
+        return $result;
     }
 }

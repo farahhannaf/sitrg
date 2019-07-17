@@ -16,8 +16,8 @@
         </div>
       @endif
       <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0 text-dark">Upload File ZIP</h1>
+        <div class="col-sm-12">
+          <h1 class="m-0 text-dark">Upload File Data Spasial dan Peraturan Daerah</h1>
         </div><!-- /.col -->
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -31,7 +31,7 @@
         <div class="row">
       <div class="container">
         
-        <div class="col-lg-8 mx-auto my-5"> 
+        <div class="col-lg-10 mx-auto my-5"> 
 
           @if(count($errors) > 0)
           <div class="alert alert-danger">
@@ -65,6 +65,13 @@
           </form>
         </div>
       </div>
+      
+      <div class="col-lg-10 mx-auto my-5"> 
+        <p>Peraturan Penamaan File :</p>
+        <p style="font-weight: bold;">Tanggal unggah data_Kode Wilayah_Subjek data File</p>
+        <p>Contoh : 09092019_113_Dinas Perhubungan.zip</p>
+      </div>
+
    
   </section>
   <!-- /.content -->

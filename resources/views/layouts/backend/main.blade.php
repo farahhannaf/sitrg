@@ -39,7 +39,7 @@
 
 
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2018 <a href="http://adminlte.io">SITRG</a>.</strong>
+    <strong>Copyright &copy; 2014-2018 <a href="http://adminlte.io">Katalog Prov Jawa Timur</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 3.0.0-alpha

@@ -47,9 +47,13 @@ Route::group(['middleware' => ['login-verification']], function () {
 	Route::post('/pdf/update/{id_pdf}','PdfController@update');
 	Route::get('/pdf/delete/{id_pdf}','PdfController@delete');
 
+	Route::get('/pdf/open/{file_pdf}', 'PdfController@show');
+
 	Route::get('/map','MapController@index');
+
 });
 
+Route::get('/test/{role}', 'MapController@getMapByUser');
 
 
 

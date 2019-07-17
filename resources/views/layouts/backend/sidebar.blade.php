@@ -22,7 +22,7 @@
             <a href="{{route('pageupload')}}" class="nav-link">
               <i class="nav-icon fa fa-plus-square-o"></i>
               <p>
-                Upload ZIP dan PDF
+                Upload 
               </p>
             </a>
           </li>
@@ -31,7 +31,7 @@
             <a href="{{url('/map')}}" class="nav-link">
               <i class="nav-icon fa fa-map-marker"></i>
               <p>
-                Hasil Upload ZIP
+                Hasil Upload Data Spasial
               </p>
             </a>
           </li>
@@ -40,11 +40,12 @@
             <a href="{{url('/pdf')}}" class="nav-link">
               <i class="nav-icon fa fa-table"></i>
               <p>
-                Hasil Upload PDF
+                Hasil Upload Perda
               </p>
             </a>
           </li>
-
+          
+          @if(Session::get('activeUser')->role_id == 1)
           <li class="nav-item has-treeview">
             <a href="{{url('/user')}}" class="nav-link">
               <i class="nav-icon fa fa-user"></i>
@@ -53,7 +54,7 @@
               </p>
             </a>
           </li>
-        
+          @endif
          
         </ul>
       </nav>

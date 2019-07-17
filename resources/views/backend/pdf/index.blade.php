@@ -49,6 +49,8 @@
                                 <td>
                                     <!-- <a href="/pdf/edit/{{$d->id_pdf}}" class="btn btn-warning btn-sm">Edit</a> -->
                                     <a href="/pdf/delete/{{$d->id_pdf}}" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="/pdf/open/{{$d->id_pdf}}" target="_blank" data-pdfPath="{{$d->file_pdf}}" > click me to pdf </a>
+    
                                 </td>
                             </tr>
                             @endforeach

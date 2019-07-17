@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Models\UserModel;
 use File;
+use Session;
 
 class UserController extends Controller
 {
@@ -16,8 +17,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data=User::all();
-        return view('backend.users.index',compact('data'));
+        if (Session::get('activeUser')->role_id == 1){
+            $data=User::all();
+            return view('backend.users.index',compact('data'));
+        }
+        return redirect('/home');
     }
 
     /**

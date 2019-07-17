@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Session;
 
 class UserModel extends Model
 {
-    protected $fillable = ['name', 'email', 'password','kode_wil'];
+    protected $fillable = ['name', 'email', 'password','kode_wil', 'role_id'];
     protected $table = 'users';
     protected $primaryKey = 'user_id';
     protected $hidden = [
